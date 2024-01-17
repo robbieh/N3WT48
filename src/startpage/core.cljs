@@ -4,7 +4,7 @@
     [reagent.dom :as rdom]
     [reagent.core :as r]
     [startpage.components :as c]
-    [cljs-polys-etc/polys :as polys]))
+    [cljs-polys-etc.polys :as polys]))
 
 (defonce pages (r/atom (js->clj js/jspages :keywordize-keys true)))
 (defonce query-params (r/atom nil))
