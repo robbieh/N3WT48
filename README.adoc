@@ -4,7 +4,7 @@ N3WT48
 
 Just a "new tab page" / startpage in a cyberpunk style.
 
-https://raw.githubusercontent.com/robbieh/N3WT48/main/N3WT48.png[screenshot, 600]
+image:https://raw.githubusercontent.com/robbieh/N3WT48/main/N3WT48.png[screenshot, 600]
 
 Configuration
 =============
