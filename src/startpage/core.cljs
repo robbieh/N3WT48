@@ -4,9 +4,7 @@
     [reagent.dom :as rdom]
     [reagent.core :as r]
     [startpage.components :as c]
-    [startpage.polys :as polys]
-    ))
-
+    [cljs-polys-etc/polys :as polys]))
 
 (defonce pages (r/atom (js->clj js/jspages :keywordize-keys true)))
 (defonce query-params (r/atom nil))
@@ -93,11 +91,11 @@
    (let [root-el (.getElementById js/document "app")]
      (rdom/unmount-component-at-node root-el)
      (rdom/render [starter] root-el)))
+
 (defn init []
   (let [root-el (.getElementById js/document "app")]
     (rdom/unmount-component-at-node root-el)
-    (rdom/render [starter] root-el)
-   ))
+    (rdom/render [starter] root-el)))
 
 (js/window.addEventListener "resize" mount-root)
 

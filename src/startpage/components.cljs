@@ -1,8 +1,6 @@
 (ns startpage.components
   (:require 
-    ;[reagent.core :as r]
-    [cljs-polys-etc.polys :as polys]
-    ))
+    [cljs-polys-etc.polys :as polys]))
 
 
 (defn datesplode []
