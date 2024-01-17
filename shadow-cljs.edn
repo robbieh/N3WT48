@@ -1,0 +1,17 @@
+;; shadow-cljs configuration
+{:source-paths
+ ["src"]
+
+ :dependencies [[reagent "1.2.0"]
+                [nundrum.net/cljs-polys-etc "0.0.1"]]
+
+ :http {:port 9632}
+ :dev-http {8632 {:root "resources/public"}
+            8292 "target/browser-test"}
+ :builds
+ {:app
+  {:target   :browser
+   :output-dir "resources/public/js/compiled"
+   :asset-path "/js/compiled"
+   :modules {:app {:init-fn startpage.core/init}}
+   }}}

@@ -1,0 +1,40 @@
+:root{
+  --glow-color: #0F0;
+  --glow-fill-color: #020;
+  --glow-hover-color: #0FC;
+  --calendar-color: #AA0;
+  --calendar-alt: #660;
+}
+
+body { 
+  background: black;
+  margin: 0;
+}
+
+.transparent { fill: #0000; }
+.glow { stroke: var(--glow-color); }
+.glow-fill { fill: var(--glow-fill-color); }
+.page-triangle:hover .hover-target { fill: var(--glow-hover-color); }
+.calendar { 
+  stroke: var(--calendar-color); 
+  fill: var(--calendar-alt); 
+}
+.calendar-outline { stroke: var(--calendar-alt); }
+.calendar-fill { fill: var(--calendar-color); }
+
+/* .sizingline { */
+/*   /1* transition: all 0.7s ease-in-out; *1/ */
+/*   /1* transition-duration: 1s; *1/ */
+/*   transition: "x2" 250ms ease-in; */
+/* } */
+
+/* .rotateit { */
+/*   animation-name: rotate-circle; */
+/*   animation-duration: 60s; */
+/*   animation-timing-function: linear; */
+/*   animation-iteration-count: infinite; */
+/*   transform-origin: 50% 50%; */
+/*   transform-box: fill-box; */
+/* } */
+/* @keyframes rotate-circle { to {transform: rotate(1turn);} } */
+

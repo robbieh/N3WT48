@@ -1,0 +1,42 @@
+
+N3WT48
+======
+
+Just a "new tab page" / startpage in a cyberpunk style.
+
+
+Configuration
+=============
+
+Both the color and set of links are configurable.
+
+Links
+-----
+
+Edit `pages.js` and add in your links. You can have different sets of links as
+shown in the default file included with N3WT48. Just pass the set you want to
+use on the URL, for example `?pages=work`
+
+Be sure to follow JavaScript conventions (don't forget the commas).
+
+Colors
+------
+Pass `color=XXX` on the URL. Green is the default, but N3WT48 currently
+handles `red` and `yellow` by this parameter.
+
+
+Setup
+=====
+
+N3WT48 has been tested with Firefox and Chrome.
+
+Firefox Setup
+-------------
+
+If you only want a startpage, just uncompress the release to your local
+filesystem and open it in Firefox. Then set that URL as your homepage.
+
+For a new tab page, you'll have to host the files on your own webserver and use
+the https://addons.mozilla.org/en-US/firefox/addon/new-tab-override/[New Tab
+Override] extension.
+
