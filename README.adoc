@@ -22,8 +22,15 @@ Be sure to follow JavaScript conventions (don't forget the commas).
 
 Colors
 ------
-Pass `color=XXX` on the URL. Green is the default, but N3WT48 currently
-handles `red` and `yellow` by this parameter.
+Pass `color=NAME` or `hue=X` the URL.
+
+Hue is a value from 0 to 360. Just play with it until you get the color you want.
+
+Color is one of the following values:
+
+```
+[red, orange, yellow, chartreuse, green, spring, cyan, azure, blue, indigo, magenta, rose]
+```
 
 
 Setup

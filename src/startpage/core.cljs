@@ -4,6 +4,7 @@
     [reagent.dom :as rdom]
     [reagent.core :as r]
     [startpage.components :as c]
+    [goog.string :refer [format]]
     [cljs-polys-etc.polys :as polys]))
 
 (defonce pages (r/atom (js->clj js/jspages :keywordize-keys true)))
@@ -12,27 +13,47 @@
 (defn setstyle [prop value]
   (js/document.body.style.setProperty prop value))
 
+
+(defn set-colors [glow glow-fill glow-hover calendar calendar-alt]
+  (setstyle "--glow-color" glow)
+  (setstyle "--glow-fill-color" glow-fill)
+  (setstyle "--glow-hover-color" glow-hover)
+  (setstyle "--calendar-color" calendar)
+  (setstyle "--calendar-alt" calendar-alt))
+
+(defn set-hue [hue]
+  (let [
+        cal-hue    (-> hue (- 60) (mod 360 ))
+        hover-hue  (-> hue (+ 10) (mod 360 ))
+        glow       (format "hsl(%d,%d%%,%d%%)", hue 100 50)
+        glow-fill  (format "hsl(%d,%d%%,%d%%)", hue 100 10)
+        glow-hover (format "hsl(%d,%d%%,%d%%)", hover-hue 100 50)
+        calendar   (format "hsl(%d,%d%%,%d%%)", cal-hue 100 50)
+        cal-alt    (format "hsl(%d,%d%%,%d%%)", cal-hue 100 20)
+        ]
+    (set-colors glow glow-fill glow-hover calendar cal-alt)))
+
 (let [params (-> js/window.location js/URL. .-searchParams 
                    js/Object.fromEntries (js->clj :keywordize-keys true))
-      color  (:color params)]
+      color  (:color params)
+      hue    (:hue params)]
   (reset! query-params params)
   (when color
     (case color
-      "red" (do
-              (setstyle "--glow-color" "#F00")
-              (setstyle "--glow-fill-color" "#200")
-              (setstyle "--glow-hover-color" "#FC0")
-              (setstyle "--calendar-color" "#A0A")
-              (setstyle "--calendar-alt" "#606")
-              )
-      "yellow" (do
-                 (setstyle "--glow-color" "#FF0")
-                 (setstyle "--glow-fill-color" "#220")
-                 (setstyle "--glow-hover-color" "#FFC")
-                 (setstyle "--calendar-color" "#B70")
-                 (setstyle "--calendar-alt" "#930")
-                 )
-      )))
+      "red"         (set-hue 0)
+      "orange"      (set-hue 30)
+      "yellow"      (set-hue 60)
+      "chartreuse"  (set-hue 90)
+      "green"       (set-hue 120)
+      "spring"      (set-hue 150)
+      "cyan"        (set-hue 180)
+      "azure"       (set-hue 210)
+      "blue"        (set-hue 240)
+      "indigo"      (set-hue 270)
+      "magenta"     (set-hue 300)
+      "rose"        (set-hue 330)))
+  (when hue (set-hue (js/parseInt hue))))
+
 
 (defn new-svg [w h e]
   [:svg {:width w :height h :viewBox (str "0 0 " w " " h ) } e])
