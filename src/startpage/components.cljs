@@ -51,7 +51,7 @@
 
 (defn yearmonth-gauge-calc [{:keys [month-width month-height day-sidelen border gap]}]
   (let [x 0 y 0 ;TODO: refactor this out
-        {:keys [day]} (datesplode)
+        {:keys [day first-dow]} (datesplode)
 
         day-width            20
         ruler-spacing        6
@@ -70,16 +70,16 @@
         ;bm [(+ x day-width day-width border border) (+ y day-height-tall border border)]
         bn [(+ x day-width day-width border border) (+ y month-height-total)]
         br [(+ x month-width day-width day-width border border border border ) (+ y month-height-total)]
-        month-x (+ x day-width day-width border border border border ) 
+        month-x (+ x day-width day-width border border border border )
         month-y (+ y border border)
         month-polys (for [i (range 0 12)]
-                      (polys/translate-poly 
+                      (polys/translate-poly
                         (chevron-poly month-width month-height gap)
-                        month-x 
+                        month-x
                         (+ month-y (* i (+ gap month-height)))))
 
         ruler-pattern (->> (range 1 31)
-                       (map #(mod % 7) )
+                       (map #(mod (+ first-dow (dec %)) 7))
                        (map #(if (or (= 0 %) (= 6 %) ) 3 1))
                        )
         ruler-polys (-> (ruler-poly day-width 3 ruler-spacing ruler-pattern)
@@ -179,7 +179,7 @@
         c      (count p)
         ymid   (* 0.5 js/document.documentElement.clientHeight)
         xmid   (* 0.5 js/document.documentElement.clientWidth)
-        space  (* c 75)
+        space  (* (dec c) 100);(* c 75)
         xstart (- xmid (* 0.5 space))
         ystart (- ymid (* 0.5 space))
         plist  (if tall?
