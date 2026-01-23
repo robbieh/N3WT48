@@ -90,7 +90,10 @@
                 [:feGaussianBlur {:in "SourceGraphic" :stdDeviation 2 }]]
                ]
 
-              [c/carveout-box ympoly]
+              ;Putting a solid fill-color poly behind the main transparent poly eliminates Firefox's rendering bug
+              ;that's why this is called twice - once for the flat poly, once for the glow poly
+              [c/carveout-box false ympoly]
+              [c/carveout-box true ympoly]
 
               [c/pagebar (get @pages pageset) tall]
 

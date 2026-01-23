@@ -3,7 +3,9 @@
     [cljs-polys-etc.polys :as polys]))
 
 
-(defn datesplode []
+(defn datesplode 
+  "Get today's date info in a friendly hashmap."
+  []
   (let [date                 (new js/Date)
         year                 (.getFullYear date)
         month                (inc (.getMonth date))
@@ -15,7 +17,9 @@
      :dow dow :first-dow first-dow :days-in-month days-in-month}))
 ;(datesplode)
 
-(defn chevron-poly [w h indent]
+(defn chevron-poly 
+  "Returns a chevron shape for drawing the calendar months."
+  [w h indent]
   (let [
         mx (* 0.5 w)
         tl [0 0]
@@ -27,7 +31,9 @@
         ]
     [tl tm tr br bm bl]))
 
-(defn equilateral-triangle-poly [sidelen] 
+(defn equilateral-triangle-poly 
+  "Returns an equilateral triangle."
+  [sidelen] 
   (let [
         ;sidelen        (equilateral-sidelen height)
         inradius       (polys/equilateral-inradius sidelen)
@@ -38,18 +44,24 @@
         ]
     [p1 p2 p3]))
 
+;TODO: unused?
 (defn poly-line [poly poly-width number gap]
   (let [xs (mapv #(* % (+ poly-width gap)) (range number))]
     (mapv #(polys/translate-poly poly % 0) xs)))
 
-(defn ruler-poly [max-height max-value spacing pattern-vec]
+(defn ruler-poly 
+  "Return a poly made of ruler-like lines.
+  Pattern-vec contains numbers describing the relative length of each mark."
+  [max-height max-value spacing pattern-vec]
   (for [[bar i] (map #(vector %1 %2) pattern-vec (range ))
         :let [y (* i  spacing)
               x (* max-height (/ bar max-value))
               ]]
     [[0 y] [x y]]))
 
-(defn yearmonth-gauge-calc [{:keys [month-width month-height day-sidelen border gap]}]
+(defn yearmonth-gauge-calc 
+  "Returns a hashmap with data required to draw the year-month gauge."
+  [{:keys [month-width month-height day-sidelen border gap]}]
   (let [x 0 y 0 ;TODO: refactor this out
         {:keys [day first-dow]} (datesplode)
 
@@ -96,12 +108,14 @@
      :month-polys month-polys
      :ruler-polys ruler-polys
      :indicator-poly indicator-poly
-     }
-  ))
+     }))
 
-
-
-(defn carveout-box [& carveout-polys]
+(defn carveout-box 
+  "Returns poly for the main outline of the SVG. A rectangle with carve-outs.
+  blur? - when false, returns the poly with fill and no blur
+        - when true, returns the poly outline with blur
+  Use together to avoid Firefox rendering bugs."
+  [blur? & carveout-polys]
   (let [w js/document.documentElement.clientWidth
         h js/document.documentElement.clientHeight
         l 10
@@ -122,14 +136,20 @@
     ;(cljs.pprint/pprint carveout-polys)
     ;(cljs.pprint/pprint (conj carveout-polys carveout))
 
+    (if blur?
+      [:<>
+       [:polygon {:points pstr :class "glow transparent" :filter "url(#mainblur)" :stroke-width 2}]
+       [:polygon {:points pstr :class "glow transparent" :stroke-width 2}]
+       ]
+      [:<>
+       [:polygon {:points pstr :class "glow-fill" }]
+       ]
+      )))
 
-    [:<>
-     [:polygon {:points pstr :class "glow glow-fill" :filter "url(#mainblur)" :stroke-width 2}]
-     [:polygon {:points pstr :class "glow transparent" :stroke-width 2}]
-     ]
-  ))
-
-(defn cyber-hexagon-poly [height offset] 
+(defn cyber-hexagon-poly 
+  "Returns a poly hexagon with three long sides and three short sides, alternating.
+  Looks like a triangle with blunted points."
+  [height offset] 
   (let [
         tipsize        (* 0.1 height)
         sqrt3          (js/Math.sqrt 3)
@@ -146,8 +166,11 @@
         ]
     [p1 p2 p3 p4 p5 p6]))
 
-
-(defn page-triangle [svgname url x y degrees]
+(defn page-triangle 
+  "Returns an SVG group element using the hexagon outline.
+  svgname - externally loaded svg that will be clipped into the triangle.
+  url - for when the triangle is clicked."
+  [svgname url x y degrees]
   (let [t1 (cyber-hexagon-poly 100 5)
         t2 (cyber-hexagon-poly 90 5)
         icon-url (str "img/" svgname ".svg")
@@ -171,9 +194,9 @@
              :clip-path (str "url(#clip-" svgname ")") 
              :href icon-url}]
      [:polygon {:class "glow" :points t2pts :fill "#0000"}]
-  ]]
-  ))
+  ]]))
 
+;TODO: unused?
 (defn pagebar [pages tall?]  
   (let [p      pages
         c      (count p)
